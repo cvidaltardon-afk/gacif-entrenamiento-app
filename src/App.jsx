@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useMemo } from "react";
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from "recharts";
 
-// ---------- Estilos GACIF ----------
+// ---------- Estilos GACIF Mejorados ----------
 const styles = `
   :root {
     --gacif-bg: #0A1E35;
@@ -37,6 +37,14 @@ const styles = `
   
   .bg-red-400 { background-color: #f87171; }
   .text-red-400 { color: #f87171; }
+  
+  /* Mejor tipografía */
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+    letter-spacing: -0.5px;
+  }
+  
+  h1, h2, h3 { letter-spacing: -1px; }
 `;
 
 if (typeof document !== "undefined") {
@@ -268,18 +276,18 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen pb-24 bg-gacif-950 text-gacif-white" style={{ fontFamily: "system-ui, -apple-system, sans-serif" }}>
-      {/* Cabecera */}
-      <header className="sticky top-0 z-20 px-4 pt-4 pb-3 bg-gacif-950 border-b border-gacif-border">
-        <div className="flex items-end justify-between max-w-lg mx-auto">
+    <div className="min-h-screen bg-gacif-950 text-gacif-white pb-24" style={{ fontFamily: "system-ui, -apple-system, sans-serif" }}>
+      {/* Cabecera Mejorada */}
+      <header className="sticky top-0 z-20 px-6 pt-6 pb-6 bg-gacif-950 border-b border-gacif-border">
+        <div className="flex items-end justify-between max-w-3xl mx-auto mb-6">
           <div>
-            <div className="text-gacif-plata text-xs font-bold tracking-widest uppercase">Recomposición</div>
-            <h1 className="text-xl font-black tracking-tight leading-tight">Registro de entrenamiento</h1>
+            <div className="text-gacif-gray text-[11px] font-bold tracking-widest uppercase mb-2">Recomposición</div>
+            <h1 className="text-4xl font-black tracking-tight leading-tight">Registro de entrenamiento</h1>
           </div>
           <div className="text-right">
-            <div className="text-[10px] uppercase tracking-widest text-gacif-gray">Semana</div>
-            <div className="text-sm font-bold text-gacif-light">{fmtWeek(displayWeek)}</div>
-            <div className="text-[10px] mt-0.5 h-3">
+            <div className="text-[11px] uppercase tracking-widest text-gacif-gray mb-1">Semana</div>
+            <div className="text-lg font-bold text-gacif-white">{fmtWeek(displayWeek)}</div>
+            <div className="text-[10px] mt-2 h-3">
               {saveState === "saving" && <span className="text-gacif-gray">guardando…</span>}
               {saveState === "saved" && <span className="text-emerald-400">✓ guardado</span>}
               {saveState === "error" && <span className="text-red-400">sin conexión</span>}
@@ -287,7 +295,7 @@ export default function App() {
           </div>
         </div>
 
-        {/* Navegación de semanas */}
+        {/* Navegación de semanas mejorada */}
         <WeekNav
           currentWeek={currentWeek}
           selectedWeek={selectedWeek}
@@ -299,15 +307,15 @@ export default function App() {
 
         {/* Temporizador flotante */}
         {timerActive && (
-          <div className="mt-3 rounded-xl bg-gacif-plata text-gacif-bg p-2 flex items-center justify-between">
-            <span className="text-xs font-black uppercase tracking-wider">Descanso</span>
-            <span className="text-2xl font-black tabular-nums">{Math.floor(timerSeconds / 60)}:{String(timerSeconds % 60).padStart(2, '0')}</span>
-            <button onClick={() => setTimerActive(false)} className="text-sm font-black">✕</button>
+          <div className="mt-4 rounded-2xl bg-gacif-plata text-gacif-bg p-3 flex items-center justify-between">
+            <span className="text-sm font-bold uppercase tracking-wider">Descanso</span>
+            <span className="text-3xl font-black tabular-nums">{Math.floor(timerSeconds / 60)}:{String(timerSeconds % 60).padStart(2, '0')}</span>
+            <button onClick={() => setTimerActive(false)} className="text-lg font-bold">✕</button>
           </div>
         )}
       </header>
 
-      <main className="max-w-lg mx-auto px-3 pt-4">
+      <main className="max-w-3xl mx-auto px-6 pt-6">
         {tab === "entrenar" && (
           <TrainTab
             routine={routine}
@@ -334,9 +342,9 @@ export default function App() {
         {tab === "medidas" && <MeasurementsTab measurements={measurements} setData={setData} />}
       </main>
 
-      {/* Navegación */}
+      {/* Navegación inferior mejorada */}
       <nav className="fixed bottom-0 inset-x-0 bg-gacif-900 border-t border-gacif-border z-30">
-        <div className="max-w-lg mx-auto grid grid-cols-5">
+        <div className="max-w-3xl mx-auto grid grid-cols-5">
           {[
             { id: "entrenar", label: "Entrenar", icon: "▶" },
             { id: "rutina", label: "Rutina", icon: "✎" },
@@ -347,11 +355,11 @@ export default function App() {
             <button
               key={t.id}
               onClick={() => setTab(t.id)}
-              className={`py-3 flex flex-col items-center gap-0.5 text-[11px] font-bold uppercase tracking-wider ${
-                tab === t.id ? "text-gacif-plata" : "text-gacif-gray"
+              className={`py-4 flex flex-col items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider transition-colors ${
+                tab === t.id ? "text-gacif-plata" : "text-gacif-gray hover:text-gacif-light"
               }`}
             >
-              <span className="text-base leading-none">{t.icon}</span>
+              <span className="text-lg leading-none">{t.icon}</span>
               {t.label}
             </button>
           ))}
@@ -367,19 +375,19 @@ function WeekNav({ currentWeek, selectedWeek, setSelectedWeek }) {
   const isCurrentWeek = !selectedWeek || selectedWeek === currentWeek;
 
   return (
-    <div className="mt-3 flex gap-2 items-center">
-      <button onClick={() => setSelectedWeek(prev)} className="w-7 h-7 rounded-lg bg-gacif-900 border border-gacif-border text-sm font-black text-gacif-gray hover:border-gacif-plata">
+    <div className="flex gap-3 items-center">
+      <button onClick={() => setSelectedWeek(prev)} className="w-10 h-10 rounded-xl bg-gacif-800 border border-gacif-border text-base font-black text-gacif-gray hover:border-gacif-plata transition-colors">
         ‹
       </button>
       <button
         onClick={() => setSelectedWeek(null)}
-        className={`flex-1 rounded-lg py-2 text-xs font-bold text-center ${
-          isCurrentWeek ? "bg-gacif-plata text-gacif-bg" : "bg-gacif-900 border border-gacif-border text-gacif-gray"
+        className={`flex-1 rounded-xl py-2.5 text-sm font-bold text-center transition-colors ${
+          isCurrentWeek ? "bg-gacif-plata text-gacif-bg" : "bg-gacif-800 border border-gacif-border text-gacif-gray hover:border-gacif-plata"
         }`}
       >
         Hoy
       </button>
-      <button onClick={() => setSelectedWeek(next)} className="w-7 h-7 rounded-lg bg-gacif-900 border border-gacif-border text-sm font-black text-gacif-gray hover:border-gacif-plata">
+      <button onClick={() => setSelectedWeek(next)} className="w-10 h-10 rounded-xl bg-gacif-800 border border-gacif-border text-base font-black text-gacif-gray hover:border-gacif-plata transition-colors">
         ›
       </button>
     </div>
@@ -389,50 +397,51 @@ function WeekNav({ currentWeek, selectedWeek, setSelectedWeek }) {
 // TrainTab con temporizador y consultas
 function TrainTab({ routine, activeDayId, setActiveDayId, displayWeek, currentWeek, canEdit, editWeek, setEditWeek, timerActive, setTimerActive, setTimerSeconds, getLog, updateLog, findPrev, queries, setData }) {
   const day = routine.days.find((d) => d.id === activeDayId) || routine.days[0];
-  if (!day) return <p className="text-gacif-gray text-sm">No hay días.</p>;
+  if (!day) return <p className="text-gacif-gray text-base">No hay días.</p>;
   const log = getLog(displayWeek, day.id);
   const [showQueries, setShowQueries] = useState(!!queries);
 
   return (
     <div>
       {displayWeek !== currentWeek && (
-        <div className={`mb-3 rounded-xl border p-3 flex items-center justify-between gap-2 ${
-          canEdit ? "border-amber-500 bg-amber-950" : "border-gacif-border-light bg-gacif-900"
+        <div className={`mb-6 rounded-2xl border p-4 flex items-center justify-between gap-3 ${
+          canEdit ? "border-gacif-plata bg-gacif-800" : "border-gacif-border bg-gacif-900"
         }`}>
           {canEdit ? (
             <>
               <div>
-                <div className="text-xs font-black text-gacif-plata uppercase tracking-wider">✎ Modo edición</div>
-                <p className="text-[11px] text-gacif-gray mt-0.5">Modificando semana {displayWeek < currentWeek ? "anterior" : "futura"}.</p>
+                <div className="text-sm font-bold text-gacif-plata uppercase tracking-wider">✎ Modo edición</div>
+                <p className="text-xs text-gacif-gray mt-1">Modificando semana {displayWeek < currentWeek ? "anterior" : "futura"}.</p>
               </div>
-              <button onClick={() => setEditWeek(null)} className="shrink-0 px-3 py-2 rounded-lg bg-gacif-800 border border-gacif-border-light text-xs font-bold text-gacif-light">
+              <button onClick={() => setEditWeek(null)} className="shrink-0 px-4 py-2 rounded-lg bg-gacif-900 border border-gacif-border text-xs font-bold text-gacif-light">
                 Bloquear
               </button>
             </>
           ) : (
             <>
               <div>
-                <div className="text-xs font-black text-gacif-gray uppercase">Solo lectura</div>
-                <p className="text-[11px] text-gacif-gray mt-0.5">Desbloquea para editar.</p>
+                <div className="text-sm font-bold text-gacif-gray uppercase">Solo lectura</div>
+                <p className="text-xs text-gacif-gray-dark mt-1">Desbloquea para editar.</p>
               </div>
               <ConfirmButton
                 label="✎ Editar"
                 confirmLabel="¿Confirmar?"
                 onConfirm={() => setEditWeek(displayWeek)}
-                className="shrink-0 px-3 py-2 rounded-lg bg-gacif-plata text-gacif-bg text-xs font-black"
+                className="shrink-0 px-4 py-2 rounded-lg bg-gacif-plata text-gacif-bg text-xs font-bold"
               />
             </>
           )}
         </div>
       )}
 
-      <div className="flex gap-2 mb-4">
+      {/* Botones de días mejorados */}
+      <div className="flex gap-3 mb-6">
         {routine.days.map((d) => (
           <button
             key={d.id}
             onClick={() => setActiveDayId(d.id)}
-            className={`flex-1 rounded-xl px-2 py-2 text-xs font-bold border ${
-              d.id === day.id ? "bg-gacif-plata text-gacif-bg border-gacif-plata" : "bg-gacif-900 text-gacif-gray border-gacif-border"
+            className={`flex-1 rounded-xl px-4 py-3 text-sm font-bold border transition-colors ${
+              d.id === day.id ? "bg-gacif-border-light text-gacif-white border-gacif-plata" : "bg-gacif-800 text-gacif-gray border-gacif-border hover:border-gacif-plata"
             }`}
           >
             {d.name.split("·")[0].trim()}
@@ -440,14 +449,15 @@ function TrainTab({ routine, activeDayId, setActiveDayId, displayWeek, currentWe
         ))}
       </div>
 
-      <div className="mb-3">
-        <h2 className="text-lg font-black">{day.name}</h2>
-        <p className="text-gacif-gray text-sm">{day.subtitle}</p>
+      {/* Título del día mejorado */}
+      <div className="mb-6">
+        <h2 className="text-2xl font-black">{day.name}</h2>
+        <p className="text-gacif-gray text-base mt-1">{day.subtitle}</p>
       </div>
 
       {/* Consultas del coach */}
-      <button onClick={() => setShowQueries(!showQueries)} className="mb-3 text-xs font-bold text-gacif-plata uppercase tracking-wider">
-        {showQueries ? "− Consultas" : "+ Consultas para el coach"}
+      <button onClick={() => setShowQueries(!showQueries)} className="mb-4 text-xs font-bold text-gacif-plata uppercase tracking-wider hover:text-gacif-light transition-colors">
+        {showQueries ? "− Consultas para el coach" : "+ Consultas para el coach"}
       </button>
       {showQueries && (
         <textarea
@@ -456,7 +466,7 @@ function TrainTab({ routine, activeDayId, setActiveDayId, displayWeek, currentWe
           disabled={!canEdit}
           placeholder="Dudas, movimientos limitantes, observaciones…"
           rows={3}
-          className={`w-full rounded-lg bg-gacif-950 border border-gacif-border px-2 py-2 text-sm text-gacif-light placeholder-gacif-gray focus:outline-none focus:border-gacif-plata mb-3 ${!canEdit ? "opacity-60" : ""}`}
+          className={`w-full rounded-xl bg-gacif-800 border border-gacif-border px-4 py-3 text-sm text-gacif-light placeholder-gacif-gray focus:outline-none focus:border-gacif-plata mb-6 ${!canEdit ? "opacity-60" : ""}`}
         />
       )}
 
@@ -497,7 +507,7 @@ function TrainTab({ routine, activeDayId, setActiveDayId, displayWeek, currentWe
   );
 }
 
-// ExerciseCard con RPE y temporizador
+// ExerciseCard mejorada
 function ExerciseCard({ ex, dayId, displayWeek, isCurrentWeek, logEntry, prev, updateLog, timerActive, setTimerActive, setTimerSeconds }) {
   const [showNote, setShowNote] = useState(!!logEntry?.note);
   const sets = ex.sets.map((target, i) => {
@@ -511,7 +521,6 @@ function ExerciseCard({ ex, dayId, displayWeek, isCurrentWeek, logEntry, prev, u
       dl.exercises[ex.id].name = ex.name;
       if (!dl.exercises[ex.id].sets[i]) dl.exercises[ex.id].sets[i] = { ...sets[i] };
       Object.assign(dl.exercises[ex.id].sets[i], patch);
-      // Activar temporizador al marcar serie
       if (patch.done && !timerActive) {
         setTimerSeconds(120);
         setTimerActive(true);
@@ -537,28 +546,28 @@ function ExerciseCard({ ex, dayId, displayWeek, isCurrentWeek, logEntry, prev, u
   const allDone = doneCount === sets.length;
 
   return (
-    <section className={`mb-3 rounded-2xl border ${allDone ? "border-emerald-700 bg-emerald-950" : "border-gacif-border bg-gacif-900"} p-3`}>
-      <div className="flex items-start justify-between gap-2">
+    <section className={`mb-6 rounded-2xl border ${allDone ? "border-emerald-700 bg-emerald-950" : "border-gacif-border bg-gacif-800"} p-5`}>
+      <div className="flex items-start justify-between gap-3 mb-4">
         <div className="min-w-0">
-          <h3 className="font-bold text-sm leading-snug">{ex.name}</h3>
+          <h3 className="font-bold text-lg leading-snug">{ex.name}</h3>
           {prev ? (
-            <p className="text-[11px] text-gacif-gray mt-0.5">Semana pasada: {prev.entry.sets.filter((s) => s.done).map((s) => `${s.kg}×${s.reps}`).join(" · ") || "—"}</p>
+            <p className="text-xs text-gacif-gray mt-1">Semana pasada: {prev.entry.sets.filter((s) => s.done).map((s) => `${s.kg}×${s.reps}`).join(" · ") || "—"}</p>
           ) : (
-            <p className="text-[11px] text-gacif-gray-dark mt-0.5">Sin registro previo</p>
+            <p className="text-xs text-gacif-gray-dark mt-1">Sin registro previo</p>
           )}
         </div>
-        <span className="text-[10px] font-bold text-gacif-gray">{doneCount}/{sets.length}</span>
+        <span className="text-xs font-bold text-gacif-gray shrink-0">{doneCount}/{sets.length}</span>
       </div>
 
-      <div className="mt-2 space-y-1.5">
+      <div className="space-y-2">
         {sets.map((s, i) => (
           <SetRow key={i} i={i} s={s} target={ex.sets[i]} onChange={(patch) => isCurrentWeek ? setSet(i, patch) : null} bodyweight={ex.sets[i].kg === 0} disabled={!isCurrentWeek} />
         ))}
       </div>
 
-      <div className="mt-2 grid grid-cols-2 gap-2">
+      <div className="mt-4 grid grid-cols-2 gap-3">
         <div>
-          <label className="text-[10px] font-bold text-gacif-gray uppercase">RPE (1-10)</label>
+          <label className="text-xs font-bold text-gacif-gray uppercase block mb-2">RPE (1-10)</label>
           <input
             type="number"
             min="1"
@@ -566,12 +575,12 @@ function ExerciseCard({ ex, dayId, displayWeek, isCurrentWeek, logEntry, prev, u
             value={logEntry?.rpe || ""}
             onChange={(e) => setRPE(e.target.value)}
             disabled={!isCurrentWeek}
-            className={`w-full rounded-lg bg-gacif-950 border border-gacif-border px-2 py-1.5 text-sm text-center focus:outline-none focus:border-gacif-plata ${!isCurrentWeek ? "opacity-60" : ""}`}
+            className={`w-full rounded-lg bg-gacif-900 border border-gacif-border px-3 py-2 text-sm text-center focus:outline-none focus:border-gacif-plata ${!isCurrentWeek ? "opacity-60" : ""}`}
           />
         </div>
         <div className="flex items-end">
-          <button onClick={() => setShowNote(!showNote)} className="text-[10px] font-bold text-gacif-gray uppercase">
-            {showNote ? "Ocultar" : "Nota"}
+          <button onClick={() => setShowNote(!showNote)} className="text-xs font-bold text-gacif-gray uppercase hover:text-gacif-light transition-colors">
+            {showNote ? "Ocultar nota" : "Agregar nota"}
           </button>
         </div>
       </div>
@@ -581,9 +590,9 @@ function ExerciseCard({ ex, dayId, displayWeek, isCurrentWeek, logEntry, prev, u
           value={logEntry?.note || ""}
           onChange={(e) => setNote(e.target.value)}
           disabled={!isCurrentWeek}
-          placeholder="Sensaciones…"
+          placeholder="Sensaciones, limitantes, técnica…"
           rows={2}
-          className={`mt-2 w-full rounded-lg bg-gacif-950 border border-gacif-border p-2 text-sm text-gacif-light placeholder-gacif-gray focus:outline-none focus:border-gacif-plata ${!isCurrentWeek ? "opacity-60" : ""}`}
+          className={`mt-3 w-full rounded-lg bg-gacif-900 border border-gacif-border p-3 text-sm text-gacif-light placeholder-gacif-gray focus:outline-none focus:border-gacif-plata ${!isCurrentWeek ? "opacity-60" : ""}`}
         />
       )}
     </section>
@@ -593,26 +602,26 @@ function ExerciseCard({ ex, dayId, displayWeek, isCurrentWeek, logEntry, prev, u
 function SetRow({ i, s, target, onChange, bodyweight, disabled }) {
   const kgStep = target.kg >= 40 ? 5 : 2.5;
   return (
-    <div className={`flex items-center gap-1.5 rounded-xl px-2 py-1.5 ${s.done ? "bg-emerald-900" : "bg-gacif-950"} ${disabled ? "opacity-60" : ""}`}>
-      <span className="w-5 text-center text-[11px] font-black text-gacif-gray-dark">{i + 1}</span>
+    <div className={`flex items-center gap-2 rounded-xl px-3 py-2.5 ${s.done ? "bg-emerald-900" : "bg-gacif-900"} ${disabled ? "opacity-60" : ""}`}>
+      <span className="w-6 text-center text-xs font-black text-gacif-gray-dark">{i + 1}</span>
 
       {bodyweight ? (
-        <div className="flex-1 text-center text-xs font-bold text-gacif-gray">Peso corporal</div>
+        <div className="flex-1 text-center text-sm font-bold text-gacif-gray">Peso corporal</div>
       ) : (
-        <div className="flex-1 flex items-center justify-center gap-1">
+        <div className="flex-1 flex items-center justify-center gap-1.5">
           <Btn onClick={() => onChange({ kg: Math.max(0, +(s.kg - kgStep).toFixed(1)) })} disabled={disabled}>−</Btn>
-          <div className="w-16 text-center">
-            <span className="text-lg font-black tabular-nums">{s.kg}</span>
+          <div className="w-20 text-center">
+            <span className="text-xl font-black tabular-nums">{s.kg}</span>
             <span className="text-[10px] text-gacif-gray"> kg</span>
           </div>
           <Btn onClick={() => onChange({ kg: +(s.kg + kgStep).toFixed(1) })} disabled={disabled}>+</Btn>
         </div>
       )}
 
-      <div className="flex-1 flex items-center justify-center gap-1">
+      <div className="flex-1 flex items-center justify-center gap-1.5">
         <Btn onClick={() => onChange({ reps: Math.max(0, s.reps - 1) })} disabled={disabled}>−</Btn>
-        <div className="w-12 text-center">
-          <span className="text-lg font-black tabular-nums">{s.reps}</span>
+        <div className="w-16 text-center">
+          <span className="text-xl font-black tabular-nums">{s.reps}</span>
           <span className="text-[10px] text-gacif-gray"> rep</span>
         </div>
         <Btn onClick={() => onChange({ reps: s.reps + 1 })} disabled={disabled}>+</Btn>
@@ -621,9 +630,9 @@ function SetRow({ i, s, target, onChange, bodyweight, disabled }) {
       <button
         onClick={() => onChange({ done: !s.done })}
         disabled={disabled}
-        className={`w-11 h-9 rounded-lg font-black text-base ${
-          s.done ? "bg-emerald-500 text-zinc-950" : "bg-gacif-800 text-gacif-gray border border-gacif-border-light"
-        } ${disabled ? "opacity-60 cursor-default" : ""}`}
+        className={`w-12 h-12 rounded-lg font-black text-lg flex items-center justify-center shrink-0 ${
+          s.done ? "bg-emerald-500 text-gacif-bg" : "bg-gacif-800 text-gacif-gray border border-gacif-border"
+        } ${disabled ? "opacity-60 cursor-default" : "hover:border-gacif-plata transition-colors"}`}
       >
         ✓
       </button>
@@ -633,7 +642,7 @@ function SetRow({ i, s, target, onChange, bodyweight, disabled }) {
 
 function Btn({ children, onClick, disabled }) {
   return (
-    <button onClick={onClick} disabled={disabled} className={`w-8 h-8 rounded-lg bg-gacif-800 text-gacif-light font-black text-base active:bg-zinc-700 ${disabled ? "opacity-60 cursor-default" : ""}`}>
+    <button onClick={onClick} disabled={disabled} className={`w-9 h-9 rounded-lg bg-gacif-800 text-gacif-light font-black text-base border border-gacif-border active:bg-gacif-900 transition-colors ${disabled ? "opacity-60 cursor-default" : "hover:border-gacif-plata"}`}>
       {children}
     </button>
   );
@@ -651,47 +660,47 @@ function WODCard({ ex, dayId, displayWeek, isCurrentWeek, logEntry, updateLog })
   };
 
   return (
-    <section className={`mb-3 rounded-2xl border ${Object.values(detail).some((v) => v) ? "border-emerald-700 bg-emerald-950" : "border-gacif-border bg-gacif-900"} p-3`}>
+    <section className={`mb-6 rounded-2xl border ${Object.values(detail).some((v) => v) ? "border-emerald-700 bg-emerald-950" : "border-gacif-border bg-gacif-800"} p-5`}>
       <button onClick={() => setOpen(!open)} className="w-full flex items-start justify-between text-left">
         <div>
-          <h3 className="font-bold text-sm">{ex.name}</h3>
-          <p className="text-[11px] text-gacif-gray mt-0.5">{detail.title ? `"${detail.title}"` : "Registra el WOD"}</p>
+          <h3 className="font-bold text-lg">{ex.name}</h3>
+          <p className="text-xs text-gacif-gray mt-1">{detail.title ? `"${detail.title}"` : "Registra el WOD"}</p>
         </div>
-        <span className="text-gacif-gray font-black">{open ? "−" : "+"}</span>
+        <span className="text-gacif-gray font-black text-lg">{open ? "−" : "+"}</span>
       </button>
 
       {open && (
-        <div className="mt-3 space-y-2">
+        <div className="mt-4 space-y-3">
           <input
             value={detail.title}
             onChange={(e) => setDetail({ title: e.target.value })}
             disabled={!isCurrentWeek}
             placeholder="Nombre del WOD"
-            className={`w-full rounded-lg bg-gacif-950 border border-gacif-border px-2 py-1.5 text-sm font-bold focus:outline-none focus:border-gacif-plata ${!isCurrentWeek ? "opacity-60" : ""}`}
+            className={`w-full rounded-lg bg-gacif-900 border border-gacif-border px-3 py-2 text-sm font-bold focus:outline-none focus:border-gacif-plata ${!isCurrentWeek ? "opacity-60" : ""}`}
           />
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-2 gap-3">
             <input
               value={detail.reps}
               onChange={(e) => setDetail({ reps: e.target.value })}
               disabled={!isCurrentWeek}
               placeholder="Reps"
-              className={`rounded-lg bg-gacif-950 border border-gacif-border px-2 py-1.5 text-sm focus:outline-none focus:border-gacif-plata ${!isCurrentWeek ? "opacity-60" : ""}`}
+              className={`rounded-lg bg-gacif-900 border border-gacif-border px-3 py-2 text-sm focus:outline-none focus:border-gacif-plata ${!isCurrentWeek ? "opacity-60" : ""}`}
             />
             <input
               value={detail.time}
               onChange={(e) => setDetail({ time: e.target.value })}
               disabled={!isCurrentWeek}
               placeholder="Tiempo (25:45 min)"
-              className={`rounded-lg bg-gacif-950 border border-gacif-border px-2 py-1.5 text-sm focus:outline-none focus:border-gacif-plata ${!isCurrentWeek ? "opacity-60" : ""}`}
+              className={`rounded-lg bg-gacif-900 border border-gacif-border px-3 py-2 text-sm focus:outline-none focus:border-gacif-plata ${!isCurrentWeek ? "opacity-60" : ""}`}
             />
           </div>
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-2 gap-3">
             <input
               value={detail.score}
               onChange={(e) => setDetail({ score: e.target.value })}
               disabled={!isCurrentWeek}
               placeholder="Score"
-              className={`rounded-lg bg-gacif-950 border border-gacif-border px-2 py-1.5 text-sm focus:outline-none focus:border-gacif-plata ${!isCurrentWeek ? "opacity-60" : ""}`}
+              className={`rounded-lg bg-gacif-900 border border-gacif-border px-3 py-2 text-sm focus:outline-none focus:border-gacif-plata ${!isCurrentWeek ? "opacity-60" : ""}`}
             />
             <input
               value={detail.rpe}
@@ -701,7 +710,7 @@ function WODCard({ ex, dayId, displayWeek, isCurrentWeek, logEntry, updateLog })
               type="number"
               min="1"
               max="10"
-              className={`rounded-lg bg-gacif-950 border border-gacif-border px-2 py-1.5 text-sm focus:outline-none focus:border-gacif-plata ${!isCurrentWeek ? "opacity-60" : ""}`}
+              className={`rounded-lg bg-gacif-900 border border-gacif-border px-3 py-2 text-sm focus:outline-none focus:border-gacif-plata ${!isCurrentWeek ? "opacity-60" : ""}`}
             />
           </div>
           <textarea
@@ -710,7 +719,7 @@ function WODCard({ ex, dayId, displayWeek, isCurrentWeek, logEntry, updateLog })
             disabled={!isCurrentWeek}
             placeholder="Notas…"
             rows={2}
-            className={`w-full rounded-lg bg-gacif-950 border border-gacif-border p-2 text-sm text-gacif-light placeholder-gacif-gray focus:outline-none focus:border-gacif-plata ${!isCurrentWeek ? "opacity-60" : ""}`}
+            className={`w-full rounded-lg bg-gacif-900 border border-gacif-border p-3 text-sm text-gacif-light placeholder-gacif-gray focus:outline-none focus:border-gacif-plata ${!isCurrentWeek ? "opacity-60" : ""}`}
           />
         </div>
       )}
@@ -728,16 +737,16 @@ function CardioCard({ day, displayWeek, isCurrentWeek, log, updateLog }) {
   };
 
   return (
-    <section className={`mb-3 rounded-2xl border p-3 ${c.done ? "border-emerald-700 bg-emerald-950" : "border-gacif-border bg-gacif-900"}`}>
-      <div className="flex items-center justify-between gap-2 mb-2">
+    <section className={`mb-6 rounded-2xl border p-5 ${c.done ? "border-emerald-700 bg-emerald-950" : "border-gacif-border bg-gacif-800"}`}>
+      <div className="flex items-center justify-between gap-3 mb-4">
         <div>
-          <h3 className="font-bold text-sm">Cardio · {day.cardio.minutes} min</h3>
-          <p className="text-[11px] text-gacif-gray">{day.cardio.desc}</p>
+          <h3 className="font-bold text-lg">Cardio · {day.cardio.minutes} min</h3>
+          <p className="text-gacif-gray text-sm mt-1">{day.cardio.desc}</p>
         </div>
         <button
           onClick={() => setCardio({ done: !c.done })}
           disabled={!isCurrentWeek}
-          className={`px-4 h-10 rounded-lg font-black text-sm ${c.done ? "bg-emerald-500 text-zinc-950" : "bg-gacif-800 text-gacif-gray border border-gacif-border-light"}`}
+          className={`px-5 h-12 rounded-lg font-black text-base shrink-0 transition-colors ${c.done ? "bg-emerald-500 text-gacif-bg" : "bg-gacif-800 text-gacif-gray border border-gacif-border hover:border-gacif-plata"}`}
         >
           {c.done ? "✓ Hecho" : "Marcar"}
         </button>
@@ -748,7 +757,7 @@ function CardioCard({ day, displayWeek, isCurrentWeek, log, updateLog }) {
         value={c.date || new Date().toISOString().slice(0, 10)}
         onChange={(e) => setCardio({ date: e.target.value })}
         disabled={!isCurrentWeek}
-        className={`w-full rounded-lg bg-gacif-950 border border-gacif-border px-2 py-1.5 text-sm mb-2 focus:outline-none focus:border-gacif-plata ${!isCurrentWeek ? "opacity-60" : ""}`}
+        className={`w-full rounded-lg bg-gacif-900 border border-gacif-border px-3 py-2 text-sm mb-3 focus:outline-none focus:border-gacif-plata ${!isCurrentWeek ? "opacity-60" : ""}`}
       />
 
       <input
@@ -756,7 +765,7 @@ function CardioCard({ day, displayWeek, isCurrentWeek, log, updateLog }) {
         onChange={(e) => setCardio({ machine: e.target.value })}
         disabled={!isCurrentWeek}
         placeholder="Máquina (escaladora, elíptica…)"
-        className={`w-full rounded-lg bg-gacif-950 border border-gacif-border px-2 py-1.5 text-sm mb-2 placeholder-gacif-gray focus:outline-none focus:border-gacif-plata ${!isCurrentWeek ? "opacity-60" : ""}`}
+        className={`w-full rounded-lg bg-gacif-900 border border-gacif-border px-3 py-2 text-sm mb-3 placeholder-gacif-gray focus:outline-none focus:border-gacif-plata ${!isCurrentWeek ? "opacity-60" : ""}`}
       />
 
       <textarea
@@ -765,7 +774,7 @@ function CardioCard({ day, displayWeek, isCurrentWeek, log, updateLog }) {
         disabled={!isCurrentWeek}
         placeholder="Nota (zonas, sensaciones…)"
         rows={1}
-        className={`w-full rounded-lg bg-gacif-950 border border-gacif-border p-2 text-sm placeholder-gacif-gray focus:outline-none focus:border-gacif-plata ${!isCurrentWeek ? "opacity-60" : ""}`}
+        className={`w-full rounded-lg bg-gacif-900 border border-gacif-border p-3 text-sm placeholder-gacif-gray focus:outline-none focus:border-gacif-plata ${!isCurrentWeek ? "opacity-60" : ""}`}
       />
     </section>
   );
@@ -775,7 +784,7 @@ function CardioCard({ day, displayWeek, isCurrentWeek, log, updateLog }) {
 function RoutineTab({ routine, setData }) {
   return (
     <div>
-      <div className="mb-4 rounded-xl bg-gacif-900 border border-gacif-border p-3">
+      <div className="mb-6 rounded-xl bg-gacif-800 border border-gacif-border p-4">
         <p className="text-sm text-gacif-gray">Actualiza la rutina del coach. Ahora puedes duplicar la semana pasada como plantilla.</p>
       </div>
 
@@ -791,7 +800,7 @@ function RoutineTab({ routine, setData }) {
             return next;
           })
         }
-        className="w-full mt-1 mb-6 rounded-xl border border-dashed border-gacif-border-light py-3 text-sm font-bold text-gacif-gray"
+        className="w-full mt-2 mb-8 rounded-xl border border-dashed border-gacif-border-light py-4 text-sm font-bold text-gacif-gray hover:text-gacif-light transition-colors"
       >
         + Agregar día
       </button>
@@ -811,26 +820,26 @@ function DayEditor({ day, di, setData, totalDays }) {
   };
 
   return (
-    <section className="mb-3 rounded-2xl border border-gacif-border bg-gacif-900 overflow-hidden">
-      <button onClick={() => setOpen(!open)} className="w-full flex items-center justify-between px-3 py-3 text-left">
+    <section className="mb-4 rounded-2xl border border-gacif-border bg-gacif-800 overflow-hidden">
+      <button onClick={() => setOpen(!open)} className="w-full flex items-center justify-between px-5 py-4 text-left hover:bg-gacif-900 transition-colors">
         <div>
-          <h3 className="font-black text-sm">{day.name}</h3>
-          <p className="text-[11px] text-gacif-gray">{day.subtitle || `${day.exercises.length} ejercicios`}</p>
+          <h3 className="font-bold text-lg">{day.name}</h3>
+          <p className="text-xs text-gacif-gray mt-1">{day.subtitle || `${day.exercises.length} ejercicios`}</p>
         </div>
-        <span className="text-gacif-gray font-black">{open ? "−" : "+"}</span>
+        <span className="text-gacif-gray font-black text-lg">{open ? "−" : "+"}</span>
       </button>
 
       {open && (
-        <div className="px-3 pb-3">
+        <div className="px-5 pb-4 bg-gacif-900">
           <input
             value={day.name}
             onChange={(e) => update((r) => (r.days[di].name = e.target.value))}
-            className="w-full rounded-lg bg-gacif-950 border border-gacif-border px-2 py-1.5 text-sm font-bold mb-2 focus:outline-none focus:border-gacif-plata"
+            className="w-full rounded-lg bg-gacif-800 border border-gacif-border px-3 py-2 text-sm font-bold mb-3 focus:outline-none focus:border-gacif-plata"
           />
           <input
             value={day.subtitle}
             onChange={(e) => update((r) => (r.days[di].subtitle = e.target.value))}
-            className="w-full rounded-lg bg-gacif-950 border border-gacif-border px-2 py-1.5 text-sm mb-3 focus:outline-none focus:border-gacif-plata"
+            className="w-full rounded-lg bg-gacif-800 border border-gacif-border px-3 py-2 text-sm mb-4 focus:outline-none focus:border-gacif-plata"
             placeholder="Enfoque"
           />
 
@@ -842,26 +851,26 @@ function DayEditor({ day, di, setData, totalDays }) {
             onClick={() =>
               update((r) => r.days[di].exercises.push({ id: uid(), name: "Nuevo ejercicio", sets: [{ kg: 20, reps: 12 }, { kg: 20, reps: 12 }, { kg: 20, reps: 12 }] }))
             }
-            className="w-full rounded-xl border border-dashed border-gacif-border-light py-2.5 text-sm font-bold text-gacif-plata mb-3"
+            className="w-full rounded-xl border border-dashed border-gacif-border-light py-3 text-sm font-bold text-gacif-plata mb-4 hover:text-gacif-light transition-colors"
           >
             + Agregar ejercicio
           </button>
 
-          <div className="rounded-xl bg-gacif-950 border border-gacif-border p-2.5 mb-3">
-            <div className="text-[11px] font-black uppercase text-gacif-gray mb-1.5">Cardio</div>
+          <div className="rounded-xl bg-gacif-800 border border-gacif-border p-3 mb-4">
+            <div className="text-xs font-bold uppercase text-gacif-gray mb-2">Cardio</div>
             <div className="flex gap-2">
               <input
                 type="number"
                 value={day.cardio?.minutes ?? 0}
                 onChange={(e) => update((r) => (r.days[di].cardio = { ...r.days[di].cardio, minutes: +e.target.value || 0 }))}
-                className="w-16 rounded-lg bg-gacif-900 border border-gacif-border px-2 py-1.5 text-sm text-center font-bold focus:outline-none focus:border-gacif-plata"
+                className="w-20 rounded-lg bg-gacif-900 border border-gacif-border px-3 py-2 text-sm text-center font-bold focus:outline-none focus:border-gacif-plata"
               />
               <span className="text-xs text-gacif-gray">min</span>
               <input
                 value={day.cardio?.desc ?? ""}
                 onChange={(e) => update((r) => (r.days[di].cardio = { ...r.days[di].cardio, desc: e.target.value }))}
                 placeholder="Descripción"
-                className="flex-1 rounded-lg bg-gacif-900 border border-gacif-border px-2 py-1.5 text-sm focus:outline-none focus:border-gacif-plata"
+                className="flex-1 rounded-lg bg-gacif-900 border border-gacif-border px-3 py-2 text-sm focus:outline-none focus:border-gacif-plata"
               />
             </div>
           </div>
@@ -886,12 +895,12 @@ function DayEditor({ day, di, setData, totalDays }) {
 
 function ExerciseEditor({ ex, di, ei, update }) {
   return (
-    <div className="rounded-xl bg-gacif-950 border border-gacif-border p-2.5 mb-2">
+    <div className="rounded-xl bg-gacif-800 border border-gacif-border p-3 mb-3">
       <div className="flex gap-2 items-center mb-2">
         <input
           value={ex.name}
           onChange={(e) => update((r) => (r.days[di].exercises[ei].name = e.target.value))}
-          className="flex-1 rounded-lg bg-gacif-900 border border-gacif-border px-2 py-1.5 text-sm font-bold focus:outline-none focus:border-gacif-plata"
+          className="flex-1 rounded-lg bg-gacif-900 border border-gacif-border px-3 py-2 text-sm font-bold focus:outline-none focus:border-gacif-plata"
         />
         <ConfirmButton
           label="×"
@@ -901,34 +910,34 @@ function ExerciseEditor({ ex, di, ei, update }) {
               r.days[di].exercises = r.days[di].exercises.filter((e) => e.id !== ex.id);
             })
           }
-          className="w-8 h-8 rounded-lg bg-gacif-900 border border-gacif-border text-red-400 font-black shrink-0"
+          className="w-9 h-9 rounded-lg bg-gacif-900 border border-gacif-border text-red-400 font-black shrink-0"
         />
       </div>
 
       {ex.sets.map((s, si) => (
-        <div key={si} className="flex items-center gap-2 mb-1.5">
-          <span className="w-5 text-center text-[11px] font-black text-gacif-gray-dark">{si + 1}</span>
+        <div key={si} className="flex items-center gap-2 mb-2">
+          <span className="w-6 text-center text-xs font-black text-gacif-gray-dark">{si + 1}</span>
           <input
             type="number"
             value={s.kg}
             onChange={(e) => update((r) => (r.days[di].exercises[ei].sets[si].kg = +e.target.value || 0))}
-            className="w-20 rounded-lg bg-gacif-900 border border-gacif-border px-2 py-1.5 text-sm text-center font-bold focus:outline-none focus:border-gacif-plata"
+            className="w-20 rounded-lg bg-gacif-900 border border-gacif-border px-2 py-2 text-sm text-center font-bold focus:outline-none focus:border-gacif-plata"
           />
-          <span className="text-[10px] text-gacif-gray">kg</span>
+          <span className="text-xs text-gacif-gray">kg</span>
           <input
             type="number"
             value={s.reps}
             onChange={(e) => update((r) => (r.days[di].exercises[ei].sets[si].reps = +e.target.value || 0))}
-            className="w-16 rounded-lg bg-gacif-900 border border-gacif-border px-2 py-1.5 text-sm text-center font-bold focus:outline-none focus:border-gacif-plata"
+            className="w-16 rounded-lg bg-gacif-900 border border-gacif-border px-2 py-2 text-sm text-center font-bold focus:outline-none focus:border-gacif-plata"
           />
-          <span className="text-[10px] text-gacif-gray">rep</span>
+          <span className="text-xs text-gacif-gray">rep</span>
           <button
             onClick={() =>
               update((r) => {
                 r.days[di].exercises[ei].sets = r.days[di].exercises[ei].sets.filter((_, idx) => idx !== si);
               })
             }
-            className="ml-auto w-7 h-7 rounded-lg bg-gacif-900 text-gacif-gray font-black text-xs"
+            className="ml-auto w-8 h-8 rounded-lg bg-gacif-900 text-gacif-gray font-black text-xs hover:text-gacif-light transition-colors"
           >
             ×
           </button>
@@ -943,7 +952,7 @@ function ExerciseEditor({ ex, di, ei, update }) {
             arr.push({ ...last });
           })
         }
-        className="text-[11px] font-bold text-gacif-plata"
+        className="text-xs font-bold text-gacif-plata hover:text-gacif-light transition-colors"
       >
         + Serie
       </button>
@@ -951,7 +960,7 @@ function ExerciseEditor({ ex, di, ei, update }) {
   );
 }
 
-// Pestaña Progreso mejorada
+// Pestaña Progreso
 function ProgressTab({ routine, logs, displayWeek }) {
   const allExercises = useMemo(() => {
     const names = new Map();
@@ -971,7 +980,6 @@ function ProgressTab({ routine, logs, displayWeek }) {
     if (!selected && allExercises.length) setSelected(allExercises[0].name);
   }, [allExercises, selected]);
 
-  // Resumen de la semana actual
   const weekSummary = useMemo(() => {
     const log = logs[displayWeek];
     if (!log) return null;
@@ -1017,31 +1025,31 @@ function ProgressTab({ routine, logs, displayWeek }) {
 
   return (
     <div>
-      <h2 className="text-lg font-black mb-1">Progresión</h2>
+      <h2 className="text-2xl font-black mb-4">Progresión</h2>
 
       {weekSummary && (
-        <div className="mb-3 grid grid-cols-2 gap-2">
-          <div className="rounded-xl bg-gacif-900 border border-gacif-border p-2 text-center">
-            <div className="text-[10px] uppercase text-gacif-gray font-bold">Sesiones</div>
-            <div className="text-2xl font-black text-gacif-plata">{weekSummary.sessions}</div>
+        <div className="mb-6 grid grid-cols-2 gap-4">
+          <div className="rounded-xl bg-gacif-800 border border-gacif-border p-4 text-center">
+            <div className="text-xs uppercase text-gacif-gray font-bold mb-1">Sesiones</div>
+            <div className="text-3xl font-black text-gacif-plata">{weekSummary.sessions}</div>
           </div>
-          <div className="rounded-xl bg-gacif-900 border border-gacif-border p-2 text-center">
-            <div className="text-[10px] uppercase text-gacif-gray font-bold">Series</div>
-            <div className="text-2xl font-black text-gacif-plata">{weekSummary.seriesDone}/{weekSummary.seriesTotal}</div>
+          <div className="rounded-xl bg-gacif-800 border border-gacif-border p-4 text-center">
+            <div className="text-xs uppercase text-gacif-gray font-bold mb-1">Series</div>
+            <div className="text-3xl font-black text-gacif-plata">{weekSummary.seriesDone}/{weekSummary.seriesTotal}</div>
           </div>
         </div>
       )}
 
       {Object.keys(logs).length === 0 ? (
-        <div className="rounded-2xl border border-gacif-border bg-gacif-900 p-6 text-center">
-          <p className="text-sm text-gacif-gray">Sin registros aún.</p>
+        <div className="rounded-2xl border border-gacif-border bg-gacif-800 p-8 text-center">
+          <p className="text-base text-gacif-gray">Sin registros aún.</p>
         </div>
       ) : (
         <>
           <select
             value={selected}
             onChange={(e) => setSelected(e.target.value)}
-            className="w-full rounded-xl bg-gacif-900 border border-gacif-border px-3 py-2.5 text-sm font-bold mb-3 focus:outline-none focus:border-gacif-plata"
+            className="w-full rounded-xl bg-gacif-800 border border-gacif-border px-4 py-3 text-sm font-bold mb-4 focus:outline-none focus:border-gacif-plata"
           >
             {allExercises.map((e) => (
               <option key={e.name} value={e.name}>
@@ -1051,17 +1059,17 @@ function ProgressTab({ routine, logs, displayWeek }) {
           </select>
 
           {series.length === 0 ? (
-            <p className="text-sm text-gacif-gray">Sin series completadas.</p>
+            <p className="text-base text-gacif-gray">Sin series completadas.</p>
           ) : (
-            <div className="rounded-2xl border border-gacif-border bg-gacif-900 p-3">
-              <div style={{ width: "100%", height: 200 }}>
+            <div className="rounded-2xl border border-gacif-border bg-gacif-800 p-4">
+              <div style={{ width: "100%", height: 250 }}>
                 <ResponsiveContainer>
                   <LineChart data={series}>
                     <CartesianGrid stroke="#2a5a8c" strokeDasharray="3 3" />
                     <XAxis dataKey="week" tick={{ fill: "#8899AA", fontSize: 10 }} />
                     <YAxis tick={{ fill: "#8899AA", fontSize: 10 }} />
                     <Tooltip contentStyle={{ background: "#18181b", border: "1px solid #1a3a5c", borderRadius: 8, fontSize: 12 }} />
-                    <Line type="monotone" dataKey="maxKg" stroke="#fbbf24" strokeWidth={2.5} dot={{ r: 4, fill: "#fbbf24" }} />
+                    <Line type="monotone" dataKey="maxKg" stroke="#C0C0C0" strokeWidth={3} dot={{ r: 5, fill: "#C0C0C0" }} />
                   </LineChart>
                 </ResponsiveContainer>
               </div>
@@ -1073,7 +1081,7 @@ function ProgressTab({ routine, logs, displayWeek }) {
   );
 }
 
-// Pestaña Brief con exportar
+// Pestaña Brief
 function BriefTab({ routine, logs, currentWeek, displayWeek, queries }) {
   const weeks = Object.keys(logs).sort().reverse();
   const [week, setWeek] = useState(weeks.includes(displayWeek) ? displayWeek : weeks[0] || displayWeek);
@@ -1108,19 +1116,19 @@ function BriefTab({ routine, logs, currentWeek, displayWeek, queries }) {
 
   return (
     <div>
-      <h2 className="text-lg font-black mb-1">Brief semanal</h2>
+      <h2 className="text-2xl font-black mb-4">Brief semanal</h2>
 
       {weeks.length === 0 ? (
-        <div className="rounded-2xl border border-gacif-border bg-gacif-900 p-6 text-center">
-          <p className="text-sm text-gacif-gray">Sin semanas registradas.</p>
+        <div className="rounded-2xl border border-gacif-border bg-gacif-800 p-8 text-center">
+          <p className="text-base text-gacif-gray">Sin semanas registradas.</p>
         </div>
       ) : (
         <>
-          <div className="flex gap-2 mb-3">
+          <div className="flex gap-3 mb-4">
             <select
               value={week}
               onChange={(e) => setWeek(e.target.value)}
-              className="flex-1 rounded-xl bg-gacif-900 border border-gacif-border px-3 py-2.5 text-sm font-bold focus:outline-none focus:border-gacif-plata"
+              className="flex-1 rounded-xl bg-gacif-800 border border-gacif-border px-4 py-3 text-sm font-bold focus:outline-none focus:border-gacif-plata"
             >
               {weeks.map((w) => (
                 <option key={w} value={w}>
@@ -1128,7 +1136,7 @@ function BriefTab({ routine, logs, currentWeek, displayWeek, queries }) {
                 </option>
               ))}
             </select>
-            <button onClick={copy} className={`px-4 rounded-xl font-black text-sm ${copied ? "bg-emerald-500 text-zinc-950" : "bg-gacif-plata text-gacif-bg"}`}>
+            <button onClick={copy} className={`px-5 rounded-xl font-black text-sm transition-colors ${copied ? "bg-emerald-500 text-gacif-bg" : "bg-gacif-plata text-gacif-bg hover:bg-gacif-light"}`}>
               {copied ? "✓" : "Copy"}
             </button>
           </div>
@@ -1136,13 +1144,13 @@ function BriefTab({ routine, logs, currentWeek, displayWeek, queries }) {
             ref={areaRef}
             readOnly
             value={text}
-            rows={20}
-            className="w-full rounded-2xl bg-gacif-900 border border-gacif-border p-3 text-xs text-gacif-light leading-relaxed focus:outline-none"
+            rows={22}
+            className="w-full rounded-2xl bg-gacif-800 border border-gacif-border p-4 text-xs text-gacif-light leading-relaxed focus:outline-none"
             style={{ fontFamily: "ui-monospace, monospace" }}
           />
           <button
             onClick={exportData}
-            className="w-full mt-3 rounded-xl bg-gacif-900 border border-gacif-border px-3 py-2.5 text-sm font-bold text-gacif-plata"
+            className="w-full mt-4 rounded-xl bg-gacif-800 border border-gacif-border px-4 py-3 text-sm font-bold text-gacif-plata hover:border-gacif-plata transition-colors"
           >
             ⬇ Exportar todos los datos (JSON)
           </button>
@@ -1222,38 +1230,38 @@ function MeasurementsTab({ measurements, setData }) {
 
   return (
     <div>
-      <h2 className="text-lg font-black mb-3">Controles antropométricos</h2>
+      <h2 className="text-2xl font-black mb-4">Controles antropométricos</h2>
 
-      <div className="rounded-2xl border border-gacif-border bg-gacif-900 p-3 mb-4">
-        <div className="grid grid-cols-2 gap-2 mb-2">
-          <input type="date" value={date} onChange={(e) => setDate(e.target.value)} className="rounded-lg bg-gacif-950 border border-gacif-border px-2 py-1.5 text-sm focus:outline-none focus:border-gacif-plata" />
-          <input type="number" value={weight} onChange={(e) => setWeight(e.target.value)} placeholder="Peso (kg)" step="0.1" className="rounded-lg bg-gacif-950 border border-gacif-border px-2 py-1.5 text-sm focus:outline-none focus:border-gacif-plata" />
+      <div className="rounded-2xl border border-gacif-border bg-gacif-800 p-4 mb-5">
+        <div className="grid grid-cols-2 gap-3 mb-3">
+          <input type="date" value={date} onChange={(e) => setDate(e.target.value)} className="rounded-lg bg-gacif-900 border border-gacif-border px-3 py-2 text-sm focus:outline-none focus:border-gacif-plata" />
+          <input type="number" value={weight} onChange={(e) => setWeight(e.target.value)} placeholder="Peso (kg)" step="0.1" className="rounded-lg bg-gacif-900 border border-gacif-border px-3 py-2 text-sm focus:outline-none focus:border-gacif-plata" />
         </div>
-        <div className="grid grid-cols-2 gap-2 mb-3">
-          <input type="number" value={fatMass} onChange={(e) => setFatMass(e.target.value)} placeholder="Grasa (kg)" step="0.1" className="rounded-lg bg-gacif-950 border border-gacif-border px-2 py-1.5 text-sm focus:outline-none focus:border-gacif-plata" />
-          <input type="number" value={muscleMass} onChange={(e) => setMuscleMass(e.target.value)} placeholder="Músculo (kg)" step="0.1" className="rounded-lg bg-gacif-950 border border-gacif-border px-2 py-1.5 text-sm focus:outline-none focus:border-gacif-plata" />
+        <div className="grid grid-cols-2 gap-3 mb-4">
+          <input type="number" value={fatMass} onChange={(e) => setFatMass(e.target.value)} placeholder="Grasa (kg)" step="0.1" className="rounded-lg bg-gacif-900 border border-gacif-border px-3 py-2 text-sm focus:outline-none focus:border-gacif-plata" />
+          <input type="number" value={muscleMass} onChange={(e) => setMuscleMass(e.target.value)} placeholder="Músculo (kg)" step="0.1" className="rounded-lg bg-gacif-900 border border-gacif-border px-3 py-2 text-sm focus:outline-none focus:border-gacif-plata" />
         </div>
-        <button onClick={add} className="w-full rounded-lg bg-gacif-plata text-gacif-bg font-bold py-2 text-sm">
+        <button onClick={add} className="w-full rounded-lg bg-gacif-plata text-gacif-bg font-bold py-2.5 text-sm">
           + Registrar
         </button>
       </div>
 
       {sortedMeasurements.length === 0 ? (
-        <p className="text-sm text-gacif-gray">Sin controles aún.</p>
+        <p className="text-base text-gacif-gray">Sin controles aún.</p>
       ) : (
         <>
           {weight && (
-            <div className="rounded-2xl border border-gacif-border bg-gacif-900 p-3 mb-3">
-              <div style={{ width: "100%", height: 220 }}>
+            <div className="rounded-2xl border border-gacif-border bg-gacif-800 p-4 mb-4">
+              <div style={{ width: "100%", height: 250 }}>
                 <ResponsiveContainer>
                   <LineChart data={sortedMeasurements}>
                     <CartesianGrid stroke="#2a5a8c" />
                     <XAxis dataKey="date" tick={{ fill: "#8899AA", fontSize: 10 }} />
                     <YAxis tick={{ fill: "#8899AA", fontSize: 10 }} domain={["auto", "auto"]} />
                     <Tooltip contentStyle={{ background: "#18181b", border: "1px solid #1a3a5c", borderRadius: 8 }} />
-                    <Line type="monotone" dataKey="weight" stroke="#fbbf24" strokeWidth={2} dot={{ r: 3 }} />
-                    {sortedMeasurements[0]?.fatMass && <Line type="monotone" dataKey="fatMass" stroke="#ef4444" strokeWidth={2} dot={{ r: 3 }} />}
-                    {sortedMeasurements[0]?.muscleMass && <Line type="monotone" dataKey="muscleMass" stroke="#10b981" strokeWidth={2} dot={{ r: 3 }} />}
+                    <Line type="monotone" dataKey="weight" stroke="#fbbf24" strokeWidth={3} dot={{ r: 4 }} />
+                    {sortedMeasurements[0]?.fatMass && <Line type="monotone" dataKey="fatMass" stroke="#ef4444" strokeWidth={3} dot={{ r: 4 }} />}
+                    {sortedMeasurements[0]?.muscleMass && <Line type="monotone" dataKey="muscleMass" stroke="#10b981" strokeWidth={3} dot={{ r: 4 }} />}
                   </LineChart>
                 </ResponsiveContainer>
               </div>
@@ -1262,7 +1270,7 @@ function MeasurementsTab({ measurements, setData }) {
 
           <div className="space-y-2">
             {sortedMeasurements.map((m, i) => (
-              <div key={i} className="rounded-lg bg-gacif-900 border border-gacif-border p-2">
+              <div key={i} className="rounded-lg bg-gacif-800 border border-gacif-border p-3">
                 <div className="flex justify-between items-center">
                   <span className="text-sm font-bold">{m.date}</span>
                   <ConfirmButton
@@ -1277,7 +1285,7 @@ function MeasurementsTab({ measurements, setData }) {
                     className="text-xs text-red-400 font-bold"
                   />
                 </div>
-                <p className="text-[11px] text-gacif-gray">{m.weight} kg {m.fatMass && `· ${m.fatMass} kg grasa`} {m.muscleMass && `· ${m.muscleMass} kg músculo`}</p>
+                <p className="text-xs text-gacif-gray mt-1">{m.weight} kg {m.fatMass && `· ${m.fatMass} kg grasa`} {m.muscleMass && `· ${m.muscleMass} kg músculo`}</p>
               </div>
             ))}
           </div>
